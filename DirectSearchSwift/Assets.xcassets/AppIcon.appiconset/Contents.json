@@ -1,0 +1,38 @@
+{
+  "images" : [
+    {
+      "filename" : "u7596664678_httpss.mj.run8uyHFAUxF-c_create_an_app_icon_for_d_5f7eb5e0-8378-41b8-a0e1-773657dc6014_2.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "u7596664678_httpss.mj.run8uyHFAUxF-c_create_an_app_icon_for_d_5f7eb5e0-8378-41b8-a0e1-773657dc6014_2 1.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "tinted"
+        }
+      ],
+      "filename" : "u7596664678_httpss.mj.run8uyHFAUxF-c_create_an_app_icon_for_d_5f7eb5e0-8378-41b8-a0e1-773657dc6014_2 2.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

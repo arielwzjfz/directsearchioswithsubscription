@@ -1,0 +1,127 @@
+{
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "70F6F6F0",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "0F4764D6",
+      "localizations" : [
+        {
+          "description" : "Unlimited access to Direct Search across all supported platforms including YouTube, Xiaohongshu, and Bilibili. Enjoy unrestricted searches without any limitations.",
+          "displayName" : "Unlimited Search Monthly",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "获得Direct Search在所有平台的无限访问权限。享受YouTube、小红书和Bilibili的无限搜索，无任何限制。随时可取消。",
+          "displayName" : "无限搜索月度订阅",
+          "locale" : "zh_CN"
+        }
+      ],
+      "name" : "Unlimited Direct Search",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "0.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "8E89610D",
+          "localizations" : [
+            {
+              "description" : "Get unlimited access to Direct Search across all platforms. Enjoy unlimited searches on YouTube, Xiaohongshu, and Bilibili without any restrictions. Cancel anytime.",
+              "displayName" : "Unlimited Search Monthly",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "获得Direct Search在所有平台的无限访问权限。享受YouTube、小红书和Bilibili的无限搜索，无任何限制。随时可取消。",
+              "displayName" : "无限搜索月度订阅",
+              "locale" : "zh_CN"
+            }
+          ],
+          "productID" : "com.arielwu.DirectSearchSwift.unlimited.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Direct Search Monthly",
+          "subscriptionGroupID" : "0F4764D6",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
