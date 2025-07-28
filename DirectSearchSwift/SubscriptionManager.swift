@@ -1,40 +1,36 @@
 import Foundation
-import StoreKit
 import SwiftUI
 
 @MainActor
 class SubscriptionManager: ObservableObject {
     static let shared = SubscriptionManager()
     
-    @Published var isSubscribed = false
+    @Published var isSubscribed = true // Always true now
     @Published var showSubscriptionAlert = false
     @Published var subscriptionAlertMessage = ""
     @Published var isLoading = false
-    @Published var freeSearchesRemaining = 10
+    @Published var freeSearchesRemaining = 999 // Always unlimited
     
     private let userDefaults = UserDefaults.standard
     private let searchCountKey = "searchCount"
-    private let maxFreeSearches = 10
-    
-    private let storeKitManager = StoreKitManager.shared
-    private let receiptValidator = ReceiptValidator.shared
     
     private init() {
-        checkSubscriptionStatus()
-        updateFreeSearchesRemaining()
+        // Always allow unlimited searches
+        isSubscribed = true
+        freeSearchesRemaining = 999
     }
     
     /// Reset all data - useful for testing different scenarios
     func resetForTesting() {
         userDefaults.removeObject(forKey: searchCountKey)
-        checkSubscriptionStatus()
-        updateFreeSearchesRemaining()
+        isSubscribed = true
+        freeSearchesRemaining = 999
     }
     
     /// Force subscribed state for testing
     func forceSubscribedStateForTesting() {
         isSubscribed = true
-        updateFreeSearchesRemaining()
+        freeSearchesRemaining = 999
     }
     
     /// Get current status for debugging
@@ -45,89 +41,35 @@ class SubscriptionManager: ObservableObject {
         - Search Count: \(searchCount)
         - Free Searches Remaining: \(freeSearchesRemaining)
         - Is Subscribed: \(isSubscribed)
+        - App is now completely free with unlimited searches!
         """
     }
     
     func checkSubscriptionStatus() {
-        // Check if user has an active subscription from StoreKit
-        if storeKitManager.isSubscribed() {
-            // Additional server-side validation for production
-            Task {
-                let isValidReceipt = await receiptValidator.validateReceipt()
-                if !isValidReceipt {
-                    print("⚠️ Receipt validation failed, but client-side shows subscribed")
-                }
-            }
-            isSubscribed = true
-        } else {
-            isSubscribed = false
-        }
-        updateFreeSearchesRemaining()
+        // Always allow unlimited searches
+        isSubscribed = true
+        freeSearchesRemaining = 999
     }
     
     func canUseApp() -> Bool {
-        return isSubscribed || freeSearchesRemaining > 0
+        return true // Always allow usage
     }
     
     func showSubscriptionRequired() {
-        subscriptionAlertMessage = "You have used all 10 free searches. Subscribe for $0.99/month to continue using Direct Search."
+        // This should never be called now, but just in case
+        subscriptionAlertMessage = "You have unlimited access to Direct Search! Enjoy searching across all platforms."
         showSubscriptionAlert = true
     }
     
     func incrementSearchCount() {
-        guard !isSubscribed else { return }
-        var count = userDefaults.integer(forKey: searchCountKey)
-        count += 1
-        userDefaults.set(count, forKey: searchCountKey)
-        updateFreeSearchesRemaining()
+        // No longer needed - unlimited searches
+        // Keep for compatibility but don't limit
     }
     
     private func updateFreeSearchesRemaining() {
-        let count = userDefaults.integer(forKey: searchCountKey)
-        freeSearchesRemaining = max(0, maxFreeSearches - count)
+        // Always unlimited
+        freeSearchesRemaining = 999
     }
     
-    // Real StoreKit purchase
-    func purchaseSubscription() async {
-        isLoading = true
-        
-        // Get products - now safe to access since we're @MainActor
-        let availableProducts = storeKitManager.products
-        guard let product = availableProducts.first else {
-            subscriptionAlertMessage = "Subscription product not available. Please try again later."
-            showSubscriptionAlert = true
-            isLoading = false
-            return
-        }
-        
-        do {
-            // Directly trigger StoreKit purchase without custom confirmation
-            try await storeKitManager.purchase(product)
-            isSubscribed = true
-            subscriptionAlertMessage = "Thank you for subscribing! You now have unlimited access to Direct Search."
-            showSubscriptionAlert = true
-            updateFreeSearchesRemaining()
-        } catch {
-            subscriptionAlertMessage = "Purchase failed: \(error.localizedDescription)"
-            showSubscriptionAlert = true
-        }
-        
-        isLoading = false
-    }
-    
-    func restorePurchases() async {
-        isLoading = true
-        
-        do {
-            try await storeKitManager.restorePurchases()
-            checkSubscriptionStatus()
-            subscriptionAlertMessage = "Purchases restored successfully!"
-            showSubscriptionAlert = true
-        } catch {
-            subscriptionAlertMessage = "Failed to restore purchases: \(error.localizedDescription)"
-            showSubscriptionAlert = true
-        }
-        
-        isLoading = false
-    }
+    // Removed all StoreKit purchase methods since app is now free
 } 

@@ -11,21 +11,7 @@ class SearchManager: ObservableObject {
     private init() {}
     
     func performSearch(platform: SearchPlatform, query: String, mode: SearchMode) {
-        // Check if user can use the app
-        if !SubscriptionManager.shared.canUseApp() {
-            SubscriptionManager.shared.showSubscriptionRequired()
-            return
-        }
-        
-        // Increment search count for non-subscribed users
-        if !SubscriptionManager.shared.isSubscribed {
-            SubscriptionManager.shared.incrementSearchCount()
-            if !SubscriptionManager.shared.canUseApp() {
-                SubscriptionManager.shared.showSubscriptionRequired()
-                return
-            }
-        }
-        
+        // App is now completely free - no subscription checks needed
         let encodedQuery = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
         
         let (appUrl, webUrl) = getUrls(for: platform, query: encodedQuery)

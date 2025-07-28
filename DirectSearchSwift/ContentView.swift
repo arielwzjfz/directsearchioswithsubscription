@@ -6,11 +6,8 @@ struct ContentView: View {
     @State private var bilibiliQuery = ""
     @State private var searchMode: SearchMode = .appSearch
     @StateObject private var searchManager = SearchManager.shared
-    @StateObject private var subscriptionManager = SubscriptionManager.shared
-    @State private var showSubscriptionView = false
     @State private var showSettingsMenu = false
     @State private var showShareSheet = false
-    @State private var showTestView = false
     @State private var keyboardHeight: CGFloat = 0
     @State private var shouldScrollToBilibili = false
     
@@ -38,44 +35,17 @@ struct ContentView: View {
                         .foregroundColor(.black)
                         .padding(.top, 15)
                     
-                    // Infinity symbol for subscribed users
-                    if subscriptionManager.isSubscribed {
-                        Image(systemName: "infinity")
-                            .font(.title2)
-                            .foregroundColor(.yellow)
-                            .padding(.top, -10)
-                    }
+                    // Infinity symbol for unlimited access
+                    Image(systemName: "infinity")
+                        .font(.title2)
+                        .foregroundColor(.yellow)
+                        .padding(.top, -10)
                     
-                    // Subscription Status with real-time countdown (only for non-subscribed users)
-                    if !subscriptionManager.isSubscribed {
-                        SubscriptionStatusView()
-                            .padding(.horizontal, 16)
-                        
-                        // Upgrade to Unlimited Widget
-                        Button(action: {
-                            showSubscriptionView = true
-                        }) {
-                            HStack(spacing: 8) {
-                                Image(systemName: "infinity")
-                                    .foregroundColor(.yellow)
-                                    .font(.caption)
-                                Text("Upgrade to Unlimited")
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.white.opacity(0.7))
-                                    .font(.caption)
-                            }
-                            .padding(.vertical, 6)
-                            .padding(.horizontal, 14)
-                            .background(Color.blue)
-                            .cornerRadius(8)
-                            .shadow(radius: 2)
-                            .padding(.horizontal, 40)
-                        }
-                    }
+                    // Unlimited access message
+                    Text("Unlimited Access")
+                        .font(.subheadline)
+                        .foregroundColor(.black.opacity(0.7))
+                        .padding(.top, 5)
                     
                     // Search Mode Toggle
                     VStack(spacing: 8) {
@@ -256,31 +226,14 @@ struct ContentView: View {
         } message: {
             Text(searchManager.alertMessage)
         }
-        .alert("Subscription", isPresented: $subscriptionManager.showSubscriptionAlert) {
-            Button("OK") {
-                if !subscriptionManager.canUseApp() {
-                    showSubscriptionView = true
-                }
-            }
-        } message: {
-            Text(subscriptionManager.subscriptionAlertMessage)
-        }
-        .sheet(isPresented: $showSubscriptionView) {
-            SubscriptionView()
-        }
         .sheet(isPresented: $showShareSheet) {
             ShareSheet(activityItems: [
                 "I found this app to eliminate distraction when searching on social media, try it out!",
                 URL(string: "https://apps.apple.com/app/directsearchswift") ?? URL(string: "https://apps.apple.com")!
             ])
         }
-        .sheet(isPresented: $showTestView) {
-            SubscriptionTestView()
-        }
         .onAppear {
-            if !subscriptionManager.canUseApp() {
-                showSubscriptionView = true
-            }
+            // App is now always available
         }
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
@@ -298,12 +251,6 @@ struct ContentView: View {
                 }
                 .font(.caption)
                 .foregroundColor(.red)
-                
-                Button("Test View") {
-                    showTestView = true
-                }
-                .font(.caption)
-                .foregroundColor(.blue)
                 
                 Button("Show Subscribed") {
                     subscriptionManager.forceSubscribedStateForTesting()

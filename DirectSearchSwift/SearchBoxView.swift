@@ -89,18 +89,11 @@ struct SearchBoxView: View {
     }
     
     private func performSearch() {
-        let trimmedQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedQuery.isEmpty else { return }
+        let query = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !query.isEmpty else { return }
         
-        isSearching = true
-        
-        // Perform the search using the SearchManager with the current search mode
-        SearchManager.shared.performSearch(platform: platform, query: trimmedQuery, mode: searchMode)
-        
-        // Reset the search state after a short delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            isSearching = false
-        }
+        // App is now completely free - no subscription check needed
+        searchManager.performSearch(platform: platform, query: query, mode: searchMode)
     }
     
     private func hideKeyboard() {
